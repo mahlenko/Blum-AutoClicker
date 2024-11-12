@@ -3,5 +3,6 @@
     "REPLAYS": 50,
     "REPLAY_DELAY": 3,
     "TOGGLE_HOTKEY": "p",
-    "START_HOTKEY": "s"
+    "START_HOTKEY": "s",
+    "CLICK_TO_FREEZ": false
 }
