@@ -47,10 +47,11 @@ class BlumClicker:
 
         return self.paused
 
-    def find_objects(self, screen: Any, rect: Tuple[int, int, int, int]) -> bool:
+    def find_objects(self, screen: Any, rect: Tuple[int, int, int, int], probability_freezing: float) -> bool:
         """
         Click on the found freeze.
 
+        :param probability_freezing:
         :param self:
         :param screen: the screenshot
         :param rect: the rectangle
@@ -58,14 +59,15 @@ class BlumClicker:
         """
         width, height = screen.size
 
-        probability_freezing = random.random() <= float(get_config_value("PROBABILITY_FREEZING"))
+        start_bottom_screen = height / 2
+        needle_freezing = random.random() <= probability_freezing
 
         for x, y in product(range(0, width, 10), range(140, height, 10)):
             r, g, b = screen.getpixel((x, y))
 
             has_flower = self.detect_color_range((r, g, b), (208, 216, 0))
 
-            if probability_freezing and y >= height / 2:
+            if y >= start_bottom_screen and needle_freezing:
                 has_freeze = self.detect_color_range((r, g, b), (90, 205, 220))
             else:
                 has_freeze = False
@@ -162,6 +164,8 @@ class BlumClicker:
             logger.info(get_language("FOUND_WINDOW").format(window=window.title))
             logger.info(get_language("PRESS_S_TO_START"))
 
+            probability_freezing = float(get_config_value("PROBABILITY_FREEZING"))
+
             while True:
                 if await self.handle_input():
                     continue
@@ -172,7 +176,7 @@ class BlumClicker:
 
                 # self.collect_green(screenshot, rect)
                 # self.collect_freeze(screenshot, rect)
-                self.find_objects(screenshot, rect)
+                self.find_objects(screenshot, rect, probability_freezing)
 
                 self.detect_replay(screenshot, rect)
                 self.detect_reload_screen(screenshot)
