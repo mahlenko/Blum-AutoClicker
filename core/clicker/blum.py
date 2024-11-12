@@ -192,7 +192,8 @@ class BlumClicker:
                 self.detect_reload_screen(screenshot)
 
                 if self.delay > 0:
-                    await asyncio.sleep(self.delay)
+                    time.sleep(self.delay)
+                    # await asyncio.sleep(self.delay)
 
         except (Exception, ExceptionGroup) as error:
             logger.error(get_language("WINDOW_CLOSED").format(error=error))
