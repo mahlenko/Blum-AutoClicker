@@ -193,8 +193,7 @@ class BlumClicker:
 
                 if self.delay > 0:
                     time.sleep(self.delay)
-                    self.delay = 0.01
-                    # await asyncio.sleep(self.delay)
+                    self.delay = 0
 
         except (Exception, ExceptionGroup) as error:
             logger.error(get_language("WINDOW_CLOSED").format(error=error))
