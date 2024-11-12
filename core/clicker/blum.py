@@ -74,7 +74,7 @@ class BlumClicker:
         return False
 
     @staticmethod
-    def detect_color_range(haystack: Tuple[int, int, int], needle: Tuple[int, int, int], range: int = 5) -> bool:
+    def detect_color_range(haystack: Tuple[int, int, int], needle: Tuple[int, int, int], range: int = 10) -> bool:
         return ((needle[0] - range) <= haystack[0] <= (needle[0] + range)
                 and (needle[1] - range) <= haystack[1] <= (needle[1] + range)
                 and (needle[2] - range) <= haystack[2] <= (needle[2] + range))
