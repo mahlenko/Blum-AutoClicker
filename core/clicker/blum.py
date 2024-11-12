@@ -60,15 +60,19 @@ class BlumClicker:
         width, height = screen.size
 
         start_bottom_screen = height / 2
-        needle_freezing = random.random() <= probability_freezing
+        randomNumber = random.random()
 
         for x, y in product(range(0, width, 10), range(150, height - 20, 10)):
             r, g, b = screen.getpixel((x, y))
 
             has_flower = self.detect_color_range((r, g, b), (208, 216, 0))
 
-            if y >= start_bottom_screen and needle_freezing:
-                has_freeze = self.detect_color_range((r, g, b), (90, 205, 220))
+            if probability_freezing:
+                needle_freezing = randomNumber <= probability_freezing
+                if y >= start_bottom_screen and needle_freezing:
+                    has_freeze = self.detect_color_range((r, g, b), (90, 205, 220))
+                else:
+                    has_freeze = False
             else:
                 has_freeze = False
 
