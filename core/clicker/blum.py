@@ -60,10 +60,7 @@ class BlumClicker:
 
         use_freezing = get_config_value("USE_FREEZING")
 
-        size_x = width // 14
-        size_y = height // 8
-
-        for x, y in product(range(size_x, width, size_x), range(140, height, size_y)):
+        for x, y in product(range(0, width, 12), range(140, height, 12)):
             r, g, b = screen.getpixel((x, y))
 
             has_flower = self.detect_color_range((r, g, b), (208, 216, 0))
