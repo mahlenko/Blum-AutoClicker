@@ -47,56 +47,24 @@ class BlumClicker:
 
         return self.paused
 
-    @staticmethod
-    def collect_green(screen: Any, rect: Tuple[int, int, int, int], sides: List[str] = ["left", "right"]) -> bool:
-        """
-        Click on the found green button.
-
-        :param screen: the screenshot
-        :param rect: the rectangle
-        :param sides: the sides to scan
-        :return: whether the image was found
-        """
-        width, height = screen.size
-        scan_height = int(height * 0.8272)
-
-        play_button_check = screen.getpixel((int(width * 0.80), int(height * 0.63))) == (255, 255, 255)
-        
-        x_ranges = {
-            "left": range(0, width // 2, 20),
-            "right": range(width // 2, width, 20)
-        }
-        
-        x_values = (x for side in sides if side in x_ranges for x in x_ranges[side])
-        
-        for x, y in product(x_values, range(0, scan_height, 20)):
-            r, g, b = screen.getpixel((x, y))
-
-            if (b < 125) and (102 <= r < 220) and (200 <= g < 255) and not play_button_check:
-                screen_x, screen_y = rect[0] + x, rect[1] + y
-                mouse.move(screen_x, screen_y, absolute=True)
-                mouse.click(button=mouse.LEFT)
-                
-                return True
-
-        return False
-
-    @staticmethod
-    def collect_freeze(screen: Any, rect: Tuple[int, int, int, int]) -> bool:
+    def find_objects(self, screen: Any, rect: Tuple[int, int, int, int]) -> bool:
         """
         Click on the found freeze.
 
+        :param self:
         :param screen: the screenshot
         :param rect: the rectangle
         :return: whether the image was found
         """
         width, height = screen.size
 
-        for x, y in product(range(0, width, 10), range(0, height, 10)):
-            r, g, b = screen.getpixel((x, y))
-            blueish_range = (215 < b < 255) and (100 <= r < 166) and (220 <= g < 254)
+        flower_color = (208, 216, 0)
+        freeze_color = (90, 205, 220)
 
-            if blueish_range:
+        for x, y in product(range(0, width, 10), range(0, height, 120)):
+            r, g, b = screen.getpixel((x, y))
+
+            if self.detect_color_range((r, g, b), flower_color) or self.detect_color_range((r, g, b), freeze_color):
                 screen_x = rect[0] + x
                 screen_y = rect[1] + y
                 mouse.move(screen_x, screen_y, absolute=True)
@@ -104,6 +72,12 @@ class BlumClicker:
                 return True
 
         return False
+
+    @staticmethod
+    def detect_color_range(haystack: Tuple[int, int, int], needle: Tuple[int, int, int], range: int = 5) -> bool:
+        return (needle[0] - range < haystack[0] < needle[0] + range
+                and needle[1] - range < haystack[1] < needle[1] + range
+                and needle[2] - range < haystack[2] < needle[2])
 
     @staticmethod
     def detect_reload_screen(screen: Any) -> bool:
@@ -190,8 +164,9 @@ class BlumClicker:
 
                 screenshot = self.utils.capture_screenshot(rect)
 
-                self.collect_green(screenshot, rect)
-                self.collect_freeze(screenshot, rect)
+                # self.collect_green(screenshot, rect)
+                # self.collect_freeze(screenshot, rect)
+                self.find_objects(screenshot, rect)
 
                 self.detect_replay(screenshot, rect)
                 self.detect_reload_screen(screenshot)
