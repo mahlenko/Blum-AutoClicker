@@ -68,7 +68,8 @@ class BlumClicker:
 
 
             # поиск цветка
-            has_flower = self.detect_color_range((r, g, b), (228, 246, 145))
+            has_flower = (self.detect_color_range((r, g, b), (229, 254, 145))
+                          or self.detect_color_range((r, g, b), (205, 220, 4)))
 
             # поиск заморозки с использованием вероятности
             if probability_freezing:
