@@ -78,7 +78,7 @@ class BlumClicker:
 
             if has_flower or has_freeze:
                 screen_x = rect[0] + x + random.randint(-2, 2)
-                screen_y = rect[1] + y + random.randint(1, 3)
+                screen_y = rect[1] + y + random.randint(0, 5)
                 mouse.move(screen_x, screen_y, absolute=True)
                 mouse.click(button=mouse.LEFT)
                 return True
