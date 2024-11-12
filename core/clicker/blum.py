@@ -193,7 +193,7 @@ class BlumClicker:
 
                 if self.delay > 0:
                     time.sleep(self.delay)
-                    self.delay = 0.005
+                    self.delay = 0.01
                     # await asyncio.sleep(self.delay)
 
         except (Exception, ExceptionGroup) as error:
