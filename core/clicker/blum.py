@@ -24,6 +24,7 @@ class BlumClicker:
         self.paused: bool = True
         self.window_options: str | None = None
         self.replays: int = 0
+        self.delay: float = 0.01
 
     async def handle_input(self) -> bool:
         """
@@ -71,10 +72,14 @@ class BlumClicker:
                 needle_freezing = randomNumber <= probability_freezing
                 if y >= start_bottom_screen and needle_freezing:
                     has_freeze = self.detect_color_range((r, g, b), (90, 205, 220))
+                    if has_freeze:
+                        self.delay = 0.25
                 else:
                     has_freeze = False
+                    self.delay = 0.01
             else:
                 has_freeze = False
+                self.delay = 0.01
 
             if has_flower or has_freeze:
                 screen_x = rect[0] + x + random.randint(-2, 2)
@@ -183,7 +188,7 @@ class BlumClicker:
                 self.detect_replay(screenshot, rect)
                 self.detect_reload_screen(screenshot)
 
-                await asyncio.sleep(0.02)
+                await asyncio.sleep(self.delay)
 
         except (Exception, ExceptionGroup) as error:
             logger.error(get_language("WINDOW_CLOSED").format(error=error))
