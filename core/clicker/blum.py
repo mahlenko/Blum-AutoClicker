@@ -24,7 +24,7 @@ class BlumClicker:
         self.paused: bool = True
         self.window_options: str | None = None
         self.replays: int = 0
-        self.delay: float = 0.01
+        self.delay: float = 0
 
     async def handle_input(self) -> bool:
         """
@@ -60,30 +60,33 @@ class BlumClicker:
         """
         width, height = screen.size
 
-        start_bottom_screen = height / 2
+        start_bottom_screen = height / 3 * 2
         randomNumber = random.random()
 
         for x, y in product(range(0, width, 10), range(170, height, 10)):
             r, g, b = screen.getpixel((x, y))
 
+
+            # поиск цветка
             has_flower = self.detect_color_range((r, g, b), (208, 216, 0))
 
+            # поиск заморозки с использованием вероятности
             if probability_freezing:
                 needle_freezing = randomNumber <= probability_freezing
                 if y >= start_bottom_screen and needle_freezing:
                     has_freeze = self.detect_color_range((r, g, b), (90, 205, 220))
                     if has_freeze:
-                        self.delay = 0.25
+                        self.delay = 1
                 else:
                     has_freeze = False
-                    self.delay = 0.01
             else:
                 has_freeze = False
-                self.delay = 0.01
 
+
+            # Если цветок или заморозка определена, кликаем
             if has_flower or has_freeze:
                 screen_x = rect[0] + x + random.randint(-2, 2)
-                screen_y = rect[1] + y + random.randint(0, 5)
+                screen_y = rect[1] + y + random.randint(1, 3)
                 mouse.move(screen_x, screen_y, absolute=True)
                 mouse.click(button=mouse.LEFT)
                 return True
@@ -188,7 +191,8 @@ class BlumClicker:
                 self.detect_replay(screenshot, rect)
                 self.detect_reload_screen(screenshot)
 
-                await asyncio.sleep(self.delay)
+                if self.delay > 0:
+                    await asyncio.sleep(self.delay)
 
         except (Exception, ExceptionGroup) as error:
             logger.error(get_language("WINDOW_CLOSED").format(error=error))
