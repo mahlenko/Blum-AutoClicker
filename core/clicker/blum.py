@@ -76,7 +76,7 @@ class BlumClicker:
                 if y >= start_bottom_screen and needle_freezing:
                     has_freeze = self.detect_color_range((r, g, b), (90, 205, 220))
                     if has_freeze:
-                        self.delay = 1
+                        self.delay = 0.75
                 else:
                     has_freeze = False
             else:
@@ -193,7 +193,7 @@ class BlumClicker:
 
                 if self.delay > 0:
                     time.sleep(self.delay)
-                    self.delay = 0
+                    self.delay = 0.005
                     # await asyncio.sleep(self.delay)
 
         except (Exception, ExceptionGroup) as error:
