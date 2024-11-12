@@ -75,11 +75,9 @@ class BlumClicker:
 
     @staticmethod
     def detect_color_range(haystack: Tuple[int, int, int], needle: Tuple[int, int, int], range: int = 5) -> bool:
-        return (
-                (needle[0] - range <= haystack[0] < needle[0] + range)
-            and (needle[1] - range <= haystack[1] < needle[1] + range)
-            and (needle[2] - range <= haystack[2] < needle[2] + range)
-        )
+        return ((needle[0] - range) <= haystack[0] <= (needle[0] + range)
+                and (needle[1] - range) <= haystack[1] <= (needle[1] + range)
+                and (needle[2] - range) <= haystack[2] <= (needle[2] + range))
 
     @staticmethod
     def detect_reload_screen(screen: Any) -> bool:
