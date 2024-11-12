@@ -61,7 +61,7 @@ class BlumClicker:
         flower_color = (208, 216, 0)
         freeze_color = (90, 205, 220)
 
-        for x, y in product(range(0, width, 0), range(0, height, 100)):
+        for x, y in product(range(0, width, 10), range(0, height, 10)):
             r, g, b = screen.getpixel((x, y))
 
             if self.detect_color_range((r, g, b), flower_color) or self.detect_color_range((r, g, b), freeze_color):
