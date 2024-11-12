@@ -58,10 +58,10 @@ class BlumClicker:
         """
         width, height = screen.size
 
-        print(width, height)
         use_freezing = get_config_value("USE_FREEZING")
 
         for x, y in product(range(0, width, 10), range(140, height, 10)):
+            print((x, y))
             r, g, b = screen.getpixel((x, y))
 
             has_flower = self.detect_color_range((r, g, b), (208, 216, 0))
@@ -81,7 +81,7 @@ class BlumClicker:
         return False
 
     @staticmethod
-    def detect_color_range(haystack: Tuple[int, int, int], needle: Tuple[int, int, int], range: int = 20) -> bool:
+    def detect_color_range(haystack: Tuple[int, int, int], needle: Tuple[int, int, int], range: int = 10) -> bool:
         return ((needle[0] - range) <= haystack[0] <= (needle[0] + range)
                 and (needle[1] - range) <= haystack[1] <= (needle[1] + range)
                 and (needle[2] - range) <= haystack[2] <= (needle[2] + range))
