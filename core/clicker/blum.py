@@ -61,7 +61,7 @@ class BlumClicker:
         flower_color = (208, 216, 0)
         freeze_color = (90, 205, 220)
 
-        for x, y in product(range(0, width, 10), range(0, height, 120)):
+        for x, y in product(range(0, width, 0), range(0, height, 100)):
             r, g, b = screen.getpixel((x, y))
 
             if self.detect_color_range((r, g, b), flower_color) or self.detect_color_range((r, g, b), freeze_color):
@@ -75,9 +75,11 @@ class BlumClicker:
 
     @staticmethod
     def detect_color_range(haystack: Tuple[int, int, int], needle: Tuple[int, int, int], range: int = 5) -> bool:
-        return (needle[0] - range < haystack[0] < needle[0] + range
-                and needle[1] - range < haystack[1] < needle[1] + range
-                and needle[2] - range < haystack[2] < needle[2])
+        return (
+                (needle[0] - range <= haystack[0] < needle[0] + range)
+            and (needle[1] - range <= haystack[1] < needle[1] + range)
+            and (needle[2] - range <= haystack[2] < needle[2] + range)
+        )
 
     @staticmethod
     def detect_reload_screen(screen: Any) -> bool:
