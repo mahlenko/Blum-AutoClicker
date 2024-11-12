@@ -63,7 +63,7 @@ class BlumClicker:
         start_bottom_screen = height / 3 * 2
         randomNumber = random.random()
 
-        for x, y in product(range(0, width, 10), range(170, height, 10)):
+        for x, y in product(range(0, width, 10), range(200, height, 10)):
             r, g, b = screen.getpixel((x, y))
 
 
