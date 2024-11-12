@@ -4,5 +4,5 @@
     "REPLAY_DELAY": 3,
     "TOGGLE_HOTKEY": "p",
     "START_HOTKEY": "s",
-    "PROBABILITY_FREEZING": 0.2
+    "PROBABILITY_FREEZING": 0.1
 }
